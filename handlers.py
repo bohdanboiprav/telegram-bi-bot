@@ -13,11 +13,9 @@ from aiogram.utils.markdown import hbold
 from aiogram import F
 
 from conf.config import settings
-# from aiogram.utils.callback_data import CallbackData
-# from keyboards.stock import product_markup
 
 from database.db import async_select_one, async_select_all
-# from keyboards.custom_keyboard import SelectionKeyboard
+from keyboards.crypto import CryptoCallback, CryptoCallbackReturn, get_keyboard_crypto, get_keyboard_crypto_return
 from keyboards.other import get_keyboard_other, OtherCallback, get_keyboard_other_return, OtherCallbackReturn
 from keyboards.stock import get_keyboard_stock, get_keyboard_stock_return, StockCallback, StockCallbackReturn
 from services.news_api import get_news
@@ -66,6 +64,35 @@ async def stock_callback_return(query: CallbackQuery, callback_data: StockCallba
                                       reply_markup=get_keyboard_stock([x[2:] for x in stock_data]))
     else:
         await query.message.edit_text("No stock data found")
+
+
+@dp.message(Command("crypto_tracker"))
+async def command_crypto_handler(message: Message) -> None:
+    query = """SELECT *
+                FROM crypto_data
+                WHERE DATE_TRUNC('minutes', report_timestamp) = (SELECT MAX(DATE_TRUNC('minutes', report_timestamp)) FROM crypto_data)
+            """
+    global crypto_data
+    crypto_data = await async_select_all(query)
+
+    await message.answer("""Use the buttons below to check the crypto prices.""",
+                         reply_markup=get_keyboard_crypto([x[2:] for x in crypto_data]))
+
+
+@dp.callback_query(CryptoCallback.filter())
+async def crypto_callback(query: CallbackQuery, callback_data: CryptoCallback):
+    await query.message.edit_text(
+        f"{callback_data.crypto}: {callback_data.crypto_price}\n📈Week Range: {callback_data.week_range}\n📊Price Increase: {callback_data.price_increase}",
+        reply_markup=get_keyboard_crypto_return())
+
+
+@dp.callback_query(CryptoCallbackReturn.filter())
+async def crypto_callback_return(query: CallbackQuery, callback_data: CryptoCallbackReturn):
+    if crypto_data:
+        await query.message.edit_text("""Use the buttons below to check the crypto prices.""",
+                                      reply_markup=get_keyboard_crypto([x[2:] for x in crypto_data]))
+    else:
+        await query.message.edit_text("No crypto data found")
 
 
 @dp.message(Command("other_trackers"))

@@ -1,7 +1,7 @@
 from contextlib import asynccontextmanager
 
 import aiopg
-import boto3
+
 from conf.config import settings
 
 
@@ -34,6 +34,12 @@ async def async_select_all(custom_query: str):
 
 
 async def async_insert(custom_query: str):
+    async with database_connection() as conn:
+        await conn.execute(custom_query)
+
+
+"""
+async def async_insert(custom_query: str):
     session = boto3.Session(aws_access_key_id=settings.AWS_SERVER_PUBLIC_KEY,
                             aws_secret_access_key=settings.AWS_SERVER_SECRET_KEY, region_name=settings.AWS_REGION)
     client = session.client('rds')
@@ -50,3 +56,4 @@ async def async_insert(custom_query: str):
                 await conn.commit()
     except Exception as e:
         print("Database connection failed due to {}".format(e))
+"""
