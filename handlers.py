@@ -207,11 +207,21 @@ async def news_handler(message: types.Message):
 
 @dp.message(Command("help"))
 async def news_handler(message: types.Message) -> None:
-    await message.answer("""Here is the list of commands you can use:\n\n 
-    /start - To start the bot\n
-    /stock_tracker - To get the stock prices\n
-    /other_trackers - To get the other trackers list\n
-    /help - To get the list of commands\n
+    await message.answer("""Here is the list of commands you can use:
+
+/start - To start the bot
+
+/stock_tracker - To get the stock prices
+
+/crypto_tracker - To track cryptocurrency prices
+
+/news_tracker - To track latest news headlines
+
+/gdp_tracker - To track GDP data and other rates
+
+/other_trackers - To get the other trackers list
+
+/help - To get the list of commands
     """)
 
 
