@@ -61,7 +61,7 @@ async def get_crypto_price(crypto_name: str, crypto_link: str) -> None:
     crypto_price = soup.find('div', class_='D(ib) Va(m) Maw(65%) Ov(h)').find("fin-streamer",
                                                                               class_="Fw(b) Fz(36px) Mb(-4px) D(ib)").text.strip().replace(
         ',', '')
-    # day_range = soup.find_all('td', class_='Ta(end) Fw(600) Lh(14px)')[2].text.strip()
+    #day_range = soup.find_all('td', class_='Ta(end) Fw(600) Lh(14px)')[2].text.strip()
     week_range = soup.find_all('td', class_='Ta(end) Fw(600) Lh(14px)')[3].text.strip()
     price_increase = soup.find('div', class_='D(ib) Mend(20px)').find("fin-streamer",
                                                                       class_="Fw(500) Pstart(8px) Fz(24px)").text.strip().replace(
@@ -99,7 +99,7 @@ async def get_country_economic_data(country_name: str, country_link: str):
 # for key, value in country_economy_mapping_dict.items():
 #     print(asyncio.run(get_country_economic_data(key, value)))
 
-print(asyncio.run(world_population_data()))
+# print(asyncio.run(world_population_data()))
 
 
 # @aiocron.crontab('* * * * *')
