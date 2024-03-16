@@ -9,9 +9,9 @@ from aiogram.enums import ParseMode
 from handlers import dp
 from conf.config import settings
 
-from services.scrapper import scheduled_covid_and_stock, scheduled_crypto
+from services.scrapper import scheduled_crypto, scheduled_stock, scheduled_covid, scheduled_country_economy, \
+    scheduled_world_population
 
-# Bot token is obtained via BotFather (t.me/botfather)
 TOKEN = settings.BOT_TOKEN
 
 
@@ -26,4 +26,3 @@ if __name__ == "__main__":
     loop = asyncio.get_event_loop()
     loop.create_task(main())
     loop.run_forever()
-

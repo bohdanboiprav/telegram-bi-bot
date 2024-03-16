@@ -16,6 +16,7 @@ from conf.config import settings
 
 from database.db import async_select_one, async_select_all
 from keyboards.crypto import CryptoCallback, CryptoCallbackReturn, get_keyboard_crypto, get_keyboard_crypto_return
+from keyboards.economy import EconomyCallbackReturn, get_keyboard_economy, EconomyCallback
 from keyboards.other import get_keyboard_other, OtherCallback, get_keyboard_other_return, OtherCallbackReturn
 from keyboards.stock import get_keyboard_stock, get_keyboard_stock_return, StockCallback, StockCallbackReturn
 from services.news_api import get_news
@@ -93,6 +94,35 @@ async def crypto_callback_return(query: CallbackQuery, callback_data: CryptoCall
                                       reply_markup=get_keyboard_crypto([x[2:] for x in crypto_data]))
     else:
         await query.message.edit_text("No crypto data found")
+
+
+@dp.message(Command("gdp_tracker"))
+async def command_economy_handler(message: Message) -> None:
+    query = """SELECT *
+                FROM country_economy
+                WHERE DATE_TRUNC('minutes', report_timestamp) = (SELECT MAX(DATE_TRUNC('minutes', report_timestamp)) FROM country_economy)
+            """
+    global economy_data
+    economy_data = await async_select_all(query)
+
+    await message.answer("""Use the buttons below to check the GDP data for your country.""",
+                         reply_markup=get_keyboard_economy([x[2:] for x in economy_data]))
+
+
+@dp.callback_query(EconomyCallback.filter())
+async def crypto_callback(query: CallbackQuery, callback_data: EconomyCallback):
+    await query.message.edit_text(
+        f"{callback_data.country}: {callback_data.real_gdp_percent}\n📈Inflation CPI: {callback_data.inflation_cpi_percent}\n📉Unemployment Rate: {callback_data.unemployment_rate_percent}",
+        reply_markup=get_keyboard_crypto_return())
+
+
+@dp.callback_query(EconomyCallbackReturn.filter())
+async def crypto_callback_return(query: CallbackQuery, callback_data: EconomyCallbackReturn):
+    if economy_data:
+        await query.message.edit_text("""Use the buttons below to check the crypto prices.""",
+                                      reply_markup=get_keyboard_economy([x[2:] for x in economy_data]))
+    else:
+        await query.message.edit_text("No gdp data found")
 
 
 @dp.message(Command("other_trackers"))
