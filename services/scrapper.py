@@ -3,7 +3,6 @@ import aiocron
 import json
 import requests
 from bs4 import BeautifulSoup
-
 from database.db import async_insert
 
 
@@ -65,11 +64,11 @@ async def get_crypto_price(crypto_name: str, crypto_link: str) -> None:
 
 
 country_economy_mapping_dict = {
-    'IRL': 'https://www.theglobaleconomy.com/Ireland/',
-    'USA': 'https://www.theglobaleconomy.com/USA/',
-    'UK': 'https://www.theglobaleconomy.com/United-Kingdom/',
-    'MOL': 'https://www.theglobaleconomy.com/Moldova/',
-    'UKR': 'https://www.theglobaleconomy.com/Ukraine/'
+    '🇮🇪Ireland GDP': 'https://www.theglobaleconomy.com/Ireland/',
+    '🇺🇸USA GDP': 'https://www.theglobaleconomy.com/USA/',
+    '🇬🇧UK GDP': 'https://www.theglobaleconomy.com/United-Kingdom/',
+    '🇲🇩Moldova GDP': 'https://www.theglobaleconomy.com/Moldova/',
+    '🇺🇦Ukraine GDP': 'https://www.theglobaleconomy.com/Ukraine/'
 }
 
 
@@ -83,15 +82,6 @@ async def get_country_economic_data(country_name: str, country_link: str):
         f"INSERT INTO country_economy (country_name, real_gdp_percent, inflation_cpi_percent, unemployment_rate_percent) VALUES ('{country_name}', '{real_gdp_percent}', '{inflation_cpi_percent}', '{unemployment_rate_percent}')")
     print(
         f"{country_name}: {real_gdp_percent}\n📈Inflation CPI: {inflation_cpi_percent}\n📉Unemployment Rate: {unemployment_rate_percent}")
-
-
-# for key, value in stock_mapping_dict.items():
-#     print(asyncio.run(get_stock_price(key, value)))
-
-# for key, value in country_economy_mapping_dict.items():
-#     print(asyncio.run(get_country_economic_data(key, value)))
-
-# print(asyncio.run(world_population_data()))
 
 
 # @aiocron.crontab('* * * * *')
