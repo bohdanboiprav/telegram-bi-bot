@@ -110,14 +110,14 @@ async def command_economy_handler(message: Message) -> None:
 
 
 @dp.callback_query(EconomyCallback.filter())
-async def crypto_callback(query: CallbackQuery, callback_data: EconomyCallback):
+async def economy_callback(query: CallbackQuery, callback_data: EconomyCallback):
     await query.message.edit_text(
         f"{callback_data.country}: {callback_data.real_gdp_percent}\n📈Inflation CPI: {callback_data.inflation_cpi_percent}\n📉Unemployment Rate: {callback_data.unemployment_rate_percent}",
         reply_markup=get_keyboard_crypto_return())
 
 
 @dp.callback_query(EconomyCallbackReturn.filter())
-async def crypto_callback_return(query: CallbackQuery, callback_data: EconomyCallbackReturn):
+async def economy_callback_return(query: CallbackQuery, callback_data: EconomyCallbackReturn):
     if economy_data:
         await query.message.edit_text("""Use the buttons below to check the crypto prices.""",
                                       reply_markup=get_keyboard_economy([x[2:] for x in economy_data]))
@@ -207,21 +207,11 @@ async def news_handler(message: types.Message):
 
 @dp.message(Command("help"))
 async def news_handler(message: types.Message) -> None:
-    await message.answer("""Here is the list of commands you can use:
-
-/start - To start the bot
-
-/stock_tracker - To get the stock prices
-
-/crypto_tracker - To track cryptocurrency prices
-
-/news_tracker - To track latest news headlines
-
-/gdp_tracker - To track GDP data and other rates
-
-/other_trackers - To get the other trackers list
-
-/help - To get the list of commands
+    await message.answer("""Here is the list of commands you can use:\n\n 
+    /start - To start the bot\n
+    /stock_tracker - To get the stock prices\n
+    /other_trackers - To get the other trackers list\n
+    /help - To get the list of commands\n
     """)
 
 

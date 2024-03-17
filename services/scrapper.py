@@ -99,7 +99,7 @@ async def get_country_economic_data(country_name: str, country_link: str):
 # for key, value in country_economy_mapping_dict.items():
 #     print(asyncio.run(get_country_economic_data(key, value)))
 
-print(asyncio.run(world_population_data()))
+# print(asyncio.run(world_population_data()))
 
 
 # @aiocron.crontab('* * * * *')
@@ -113,19 +113,19 @@ async def scheduled_world_population():
     await world_population_data()
 
 
-@aiocron.crontab('0 6 * * *')
+@aiocron.crontab('4 5 * * *')
 async def scheduled_stock():
     for key, value in stock_mapping_dict.items():
         await get_stock_price(key, value)
 
 
-@aiocron.crontab('0 6 * * *')
+@aiocron.crontab('4 6 * * *')
 async def scheduled_crypto():
     for key, value in crypto_mapping_dict.items():
         await get_crypto_price(key, value)
 
 
-@aiocron.crontab('0 6 * * *')
+@aiocron.crontab('0 7 * * *')
 async def scheduled_country_economy():
     for key, value in country_economy_mapping_dict.items():
         await get_country_economic_data(key, value)
