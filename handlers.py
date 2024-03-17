@@ -113,7 +113,7 @@ async def command_economy_handler(message: Message) -> None:
 async def economy_callback(query: CallbackQuery, callback_data: EconomyCallback):
     await query.message.edit_text(
         f"{callback_data.country}: {callback_data.real_gdp_percent}\n📈Inflation CPI: {callback_data.inflation_cpi_percent}\n📉Unemployment Rate: {callback_data.unemployment_rate_percent}",
-        reply_markup=get_keyboard_crypto_return())
+        reply_markup=get_keyboard_economy_return())
 
 
 @dp.callback_query(EconomyCallbackReturn.filter())
