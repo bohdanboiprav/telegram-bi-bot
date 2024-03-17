@@ -17,14 +17,6 @@ async def covid_cases_data():
     print(f'{data_out[0]}, {data_out[1]}, {data_out[2]}')
 
 
-async def world_population_data():
-    data_request = requests.get('https://worldpopulationreview.com/')
-    soup = BeautifulSoup(data_request.content, 'html.parser')
-    current_population_world = soup.find('div', class_='text-center text-3xl mb-2').text.strip().replace(',', '')
-    await async_insert(f"INSERT INTO world_population (population) VALUES ({current_population_world})")
-    print(f'{current_population_world}')
-
-
 stock_mapping_dict = {
     'TSLA': 'https://finance.yahoo.com/quote/TSLA?.tsrc=fin-srch',
     'AMZN': 'https://finance.yahoo.com/quote/AMZN?.tsrc=fin-srch',
@@ -106,11 +98,6 @@ async def get_country_economic_data(country_name: str, country_link: str):
 @aiocron.crontab('0 6 * * *')
 async def scheduled_covid():
     await covid_cases_data()
-
-
-@aiocron.crontab('0 6 * * *')
-async def scheduled_world_population():
-    await world_population_data()
 
 
 @aiocron.crontab('4 5 * * *')

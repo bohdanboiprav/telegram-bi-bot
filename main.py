@@ -9,8 +9,7 @@ from aiogram.enums import ParseMode
 from handlers import dp
 from conf.config import settings
 
-from services.scrapper import scheduled_crypto, scheduled_stock, scheduled_covid, scheduled_country_economy, \
-    scheduled_world_population
+from services.scrapper import scheduled_crypto, scheduled_stock, scheduled_covid, scheduled_country_economy
 
 TOKEN = settings.BOT_TOKEN
 

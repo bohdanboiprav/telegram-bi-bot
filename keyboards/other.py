@@ -13,7 +13,6 @@ class OtherCallbackReturn(CallbackData, prefix="other_main"):
 def get_keyboard_other():
     builder = InlineKeyboardBuilder()
     builder.button(text="Covid Cases", callback_data=OtherCallback(action="covid_cases"))
-    # builder.button(text="World Population", callback_data=OtherCallback(action="world_population"))
     # builder.button(text="Other", callback_data=OtherCallback(text="back"))
     # builder.button(text="Other", callback_data=OtherCallback(text="back"))
     builder.adjust(1)
