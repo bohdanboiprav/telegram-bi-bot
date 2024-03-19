@@ -1,4 +1,3 @@
-# This file contains the configuration settings for the bot.
 from pydantic import ConfigDict
 from pydantic_settings import BaseSettings
 

@@ -1,4 +1,3 @@
-# This file contains the keyboards for the economy tracker
 from aiogram.filters.callback_data import CallbackData
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 

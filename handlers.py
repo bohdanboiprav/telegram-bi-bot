@@ -24,6 +24,7 @@ from services.news_api import get_news
 dp = Dispatcher()
 
 
+# Initialize the bot
 @dp.message(CommandStart())
 async def command_start_handler(message: Message) -> None:
     await message.answer(f"""👋Hello, {hbold(message.from_user.full_name)}!
@@ -38,6 +39,7 @@ async def command_start_handler(message: Message) -> None:
 I fetch real-time data from reliable financial APIs, scrape articles from reputable financial sources. Your data’s privacy and security are my top priority. Let me assist you in your data-driven journey! 🚀📈""")
 
 
+# Define the command handlers for the stock tracker
 @dp.message(Command("stock_tracker"))
 async def command_start_handler(message: Message) -> None:
     query = """SELECT *
@@ -51,6 +53,7 @@ async def command_start_handler(message: Message) -> None:
                          reply_markup=get_keyboard_stock([x[2:] for x in stock_data]))
 
 
+# Define the callback handlers for the stock tracker
 @dp.callback_query(StockCallback.filter())
 async def stock_callback(query: CallbackQuery, callback_data: StockCallback):
     await query.message.edit_text(
@@ -67,6 +70,7 @@ async def stock_callback_return(query: CallbackQuery, callback_data: StockCallba
         await query.message.edit_text("No stock data found")
 
 
+# Define the command handlers for the crypto tracker
 @dp.message(Command("crypto_tracker"))
 async def command_crypto_handler(message: Message) -> None:
     query = """SELECT *
@@ -80,6 +84,7 @@ async def command_crypto_handler(message: Message) -> None:
                          reply_markup=get_keyboard_crypto([x[2:] for x in crypto_data]))
 
 
+# Define the callback handlers for the crypto tracker
 @dp.callback_query(CryptoCallback.filter())
 async def crypto_callback(query: CallbackQuery, callback_data: CryptoCallback):
     await query.message.edit_text(
@@ -96,6 +101,7 @@ async def crypto_callback_return(query: CallbackQuery, callback_data: CryptoCall
         await query.message.edit_text("No crypto data found")
 
 
+# Define the command handlers for the economy tracker
 @dp.message(Command("gdp_tracker"))
 async def command_economy_handler(message: Message) -> None:
     query = """SELECT *
@@ -125,6 +131,7 @@ async def economy_callback_return(query: CallbackQuery, callback_data: EconomyCa
         await query.message.edit_text("No gdp data found")
 
 
+# Define the command handlers for other trackers
 @dp.message(Command("other_trackers"))
 async def other_handler(message: types.Message) -> None:
     await message.answer("Please select want information you want to get", reply_markup=get_keyboard_other())
@@ -146,11 +153,13 @@ async def other_callback(query: CallbackQuery, callback_data: OtherCallback):
         await query.message.edit_text(reply_string, reply_markup=get_keyboard_other_return())
 
 
+# Define the callback handlers for the other trackers
 @dp.callback_query(OtherCallbackReturn.filter())
 async def stock_callback_return(query: CallbackQuery, callback_data: OtherCallbackReturn):
     await query.message.edit_text("Please select want information you want to get", reply_markup=get_keyboard_other())
 
 
+# Define the command handlers for the news tracker
 @dp.message(Command("news_tracker"))
 async def other_handler(message: types.Message) -> None:
     kb = [
@@ -205,17 +214,31 @@ async def news_handler(message: types.Message):
                                    reply_markup=types.ReplyKeyboardRemove())
 
 
+# Define the command handlers for the help command
 @dp.message(Command("help"))
 async def news_handler(message: types.Message) -> None:
     await message.answer("""Here is the list of commands you can use:\n\n 
     /start - To start the bot\n
     /stock_tracker - To get the stock prices\n
+    /crypto_tracker - To get the crypto prices\n
+    /gdp_tracker - To get the GDP data\n
+    /news_tracker - To get the news\n
     /other_trackers - To get the other trackers list\n
     /help - To get the list of commands\n
     """)
 
 
+# Define the command handlers for the start command
 @dp.message()
 async def command_start_handler(message: Message) -> None:
     await message.answer(
         f"I'm not sure what you meant.\n\nPlease check the bot's description or use the '/help' command to see its available functionalities and commands")
+
+
+"""In the above code snippet, we have defined the command handlers for the stock tracker, crypto tracker, economy tracker,
+other trackers, news tracker, and the help command. These handlers are used to interact with the user and provide the
+requested information. The handlers are defined using the aiogram library's Dispatcher class and the callback_query
+decorator. The handlers use the get_keyboard functions from the respective keyboard modules to generate the interactive
+keyboards for the trackers. The handlers also use the async_select_one and async_select_all functions from the database
+module to fetch the latest data from the database and display it to the user. The handlers are defined in the handlers.py
+script and are used in the main.py script to handle the user's commands and queries."""

@@ -1,4 +1,3 @@
-# This file is used to get the news from the news api
 import requests
 
 

@@ -1,4 +1,3 @@
-# This script contains the functions to scrape data from various websites and insert it into the database.
 import asyncio
 import aiocron
 import json

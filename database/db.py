@@ -1,4 +1,3 @@
-# This file contains the database connection and query execution functions
 from contextlib import asynccontextmanager
 
 import aiopg
