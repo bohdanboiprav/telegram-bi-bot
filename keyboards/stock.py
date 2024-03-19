@@ -2,6 +2,7 @@ from aiogram.filters.callback_data import CallbackData
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
 
+# Callback data for the stock tracker
 class StockCallback(CallbackData, prefix="stock_tracker"):
     company: str
     stock_price: float
@@ -10,10 +11,12 @@ class StockCallback(CallbackData, prefix="stock_tracker"):
     week_range: str
 
 
+# Callback data for the stock tracker return button
 class StockCallbackReturn(CallbackData, prefix="stock_main"):
     text: str
 
 
+# Function to get the keyboard for the stock tracker
 def get_keyboard_stock(list_of_stocks: list):
     builder = InlineKeyboardBuilder()
     for i in list_of_stocks:
@@ -25,8 +28,16 @@ def get_keyboard_stock(list_of_stocks: list):
     return builder.as_markup()
 
 
+# Function to get the return button for the stock tracker
 def get_keyboard_stock_return():
     builder = InlineKeyboardBuilder()
     builder.button(text="🔙Back", callback_data=StockCallbackReturn(text="covid_cases"))
     builder.adjust(1)
     return builder.as_markup()
+
+
+"""In the above code snippet, we have defined two CallbackData classes, StockCallback and StockCallbackReturn, to handle the
+callback data for the stock tracker and the return button. The get_keyboard_stock function generates the keyboard for the
+stock tracker based on the list of stocks provided. The get_keyboard_stock_return function generates the return button for
+the stock tracker. These functions are used in the handlers/stock.py script to create the interactive keyboard for the
+stock tracker."""
